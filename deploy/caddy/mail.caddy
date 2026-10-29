@@ -1,0 +1,26 @@
+# Stalwart mail server: systemd service on the host, not part of the distrofy-webapp compose project.
+# 10.0.2.1 is the host side of the distrofy-net bridge; ufw only allows 10.0.2.0/24 to reach :10443.
+mail.distrofyent.com, autoconfig.distrofyent.com, autodiscover.distrofyent.com, mta-sts.distrofyent.com, ua-auto-config.distrofyent.com {
+	handle /robots.txt {
+		respond <<TXT
+			User-agent: *
+			Disallow: /
+			TXT 200
+	}
+
+	handle {
+		reverse_proxy https://10.0.2.1:10443 {
+			transport http {
+				proxy_protocol v2
+				tls_server_name mail.distrofyent.com
+			}
+		}
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+		Referrer-Policy no-referrer
+	}
+}
