@@ -75,7 +75,7 @@ deploy_service() {
   ssh "$SSH_HOST" 'sudo bash -s' <<'EOF'
 set -euo pipefail
 install -o root -g root -m 0644 /tmp/stalwart.service /etc/systemd/system/stalwart.service
-install -o stalwart -g stalwart -m 0644 /tmp/config.json /etc/stalwart/config.json
+install -o stalwart -g stalwart -m 0600 /tmp/config.json /etc/stalwart/config.json
 rm -f /tmp/stalwart.service /tmp/config.json
 systemctl daemon-reload
 systemctl restart stalwart
