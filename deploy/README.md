@@ -65,7 +65,11 @@ secrets; the Cloudflare token is stored only on the server (WebUI › Settings �
 - **Add a brand domain:** add the zone to the Cloudflare token, then WebUI › Management › Domains with
   DNS management *Automatic* (Cloudflare provider, every record type except CAA) and certificate
   management *Automatic*. Run `deploy/deploy.sh snapshot` afterwards.
-- **Upgrade Stalwart:** follow the upstream `UPGRADING/` notes, replace `/usr/local/bin/stalwart`, restart.
+- **Upgrade Stalwart:** sync the fork, read the new `CHANGELOG.md` entries (and `UPGRADING/` for 0.x),
+  then replace `/usr/local/bin/stalwart` and restart. Moving from 0.16.x to 1.x is **not** an in-place
+  upgrade: 1.0 uses a new database layout, so follow the
+  [migration guide](https://stalw.art/docs/migration/upgrade-0-16/) instead. After syncing, compare
+  upstream's `install.sh` with `stalwart/stalwart.service` and the `service` step in `deploy.sh`.
 
 ## Recovery
 
